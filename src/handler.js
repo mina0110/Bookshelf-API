@@ -68,10 +68,34 @@ const addBookHandler = (request, h) => {
 };
 
 const getAllBooksHandler = (request, h) => {
+  const { name, reading, finished } = request.query;
+
+  if (name) {
+    const isName = books.filter((book) => book.name.toLowerCase() === name.toLowerCase())
+      .map((x) => ({
+        id: x.id,
+        name: x.name,
+        publisher: x.publisher,
+      }));
+
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: isName,
+      },
+    });
+    response.code(200);
+    return response;
+  }
+
   const response = h.response({
     status: 'success',
     data: {
-      books,
+      books: books.map((x) => ({
+        id: x.id,
+        name: x.name,
+        publisher: x.publisher,
+      })),
     },
   });
   response.code(200);
@@ -145,7 +169,7 @@ const editBookByIdHandler = (request, h) => {
 
     const response = h.response({
       status: 'success',
-      message: 'Catatan berhasil diperbarui',
+      message: 'Buku berhasil diperbarui',
     });
     response.code(200);
     return response;
