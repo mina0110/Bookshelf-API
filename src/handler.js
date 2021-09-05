@@ -71,11 +71,11 @@ const getAllBooksHandler = (request, h) => {
   const { name, reading, finished } = request.query;
 
   if (name) {
-    const isName = books.filter((book) => book.name.toLowerCase() === name.toLowerCase())
-      .map((x) => ({
-        id: x.id,
-        name: x.name,
-        publisher: x.publisher,
+    const isName = books.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()))
+      .map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
       }));
 
     const response = h.response({
@@ -88,13 +88,49 @@ const getAllBooksHandler = (request, h) => {
     return response;
   }
 
+  if (reading) {
+    const isReading = books.filter((book) => Number(book.reading) === Number(reading))
+      .map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+      }));
+
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: isReading,
+      },
+    });
+    response.code(200);
+    return response;
+  }
+
+  if (finished) {
+    const isFinished = books.filter((book) => Number(book.finished) === Number(finished))
+      .map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+      }));
+
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: isFinished,
+      },
+    });
+    response.code(200);
+    return response;
+  }
+
   const response = h.response({
     status: 'success',
     data: {
-      books: books.map((x) => ({
-        id: x.id,
-        name: x.name,
-        publisher: x.publisher,
+      books: books.map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
       })),
     },
   });
@@ -104,9 +140,9 @@ const getAllBooksHandler = (request, h) => {
 
 const getBookByIdHandler = (request, h) => {
   const { bookId } = request.params;
-  const book = books.filter((n) => n.bookId === bookId)[0];
+  const book = books.filter((n) => n.id === bookId)[0];
 
-  if (book !== undefined) {
+  if (book) {
     const response = h.response({
       status: 'success',
       data: {

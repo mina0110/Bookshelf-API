@@ -1,7 +1,6 @@
 {
   "name": "bookshelf-api",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start-prod": "NODE_ENV=production node ./src/server.js",
@@ -20,5 +19,14 @@
   "dependencies": {
     "@hapi/hapi": "^20.1.5",
     "nanoid": "^3.1.25"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mina0110/Bookshelf-API.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mina0110/Bookshelf-API/issues"
+  },
+  "homepage": "https://github.com/mina0110/Bookshelf-API#readme",
+  "description": ""
 }
